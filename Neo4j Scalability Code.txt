@@ -1,4 +1,13 @@
-//Creating the 100000 nodes and the relationships in Neo4j
+//Creating the the nodes in Neo4j
+UNWIND range(1,100000) as i
+CREATE (:Node {id: i})
+
+//Creating the nodes in Neptune (The only difference is denoting the query language %%OC)
+%%oc
+UNWIND range(1,100000) as i
+CREATE (:Node {id: i})
+
+//Creating the the relationships in Neo4j
 MATCH (n:Node)
 WITH n
 LIMIT 100000
@@ -8,7 +17,7 @@ WITH n, m
 LIMIT 1000
 CREATE (n)-[:Edge]->(m)
 
-//Creating the 100000 nodes and the relationships in Neptune (The only difference is denoting the query language %%OC)
+//Creating the relationships in Neptune (The only difference is denoting the query language %%OC)
 %%oc
 MATCH (n:Node)
 WITH n
