@@ -1,0 +1,57 @@
+//Creating the 100000 nodes and the relationships in Neo4j
+MATCH (n:Node)
+WITH n
+LIMIT 100000
+MATCH (m:Node)
+WHERE m.id > n.id
+WITH n, m
+LIMIT 1000
+CREATE (n)-[:Edge]->(m)
+
+//Creating the 100000 nodes and the relationships in Neptune (The only difference is denoting the query language %%OC)
+%%oc
+MATCH (n:Node)
+WITH n
+LIMIT 100000
+MATCH (m:Node)
+WHERE m.id > n.id
+WITH n, m
+LIMIT 1000
+CREATE (n)-[:Edge]->(m)
+
+//A Complex query to traverse relationships to test speed in Neptune
+MATCH (a:Node)-[:Edge]->(b:Node)-[:Edge]->(c:Node)-[:Edge]->(d:Node)-[:Edge]->(e:Node)-[:Edge]->(f:Node)-[:Edge]->(g:Node)-[:Edge]->(h:Node)-[:Edge]->(i:Node)-[:Edge]->(j:Node)-[:Edge]->(k:Node)-[:Edge]->(l:Node)-[:Edge]->(m:Node)-[:Edge]->(n:Node)-[:Edge]->(o:Node)-[:Edge]->(p:Node)-[:Edge]->(q:Node)-[:Edge]->(r:Node)-[:Edge]->(s:Node)-[:Edge]->(t:Node)
+RETURN a.id, b.id, c.id, d.id, e.id, f.id, g.id, h.id, i.id, j.id, k.id, l.id, m.id, n.id, o.id, p.id, q.id, r.id, s.id, t.id
+
+//A Complex query to traverse relationships to test speed in neptune(The only difference is denoting the query language %%OC)
+%%oc
+MATCH (a:Node)-[:Edge]->(b:Node)-[:Edge]->(c:Node)-[:Edge]->(d:Node)-[:Edge]->(e:Node)-[:Edge]->(f:Node)-[:Edge]->(g:Node)-[:Edge]->(h:Node)-[:Edge]->(i:Node)-[:Edge]->(j:Node)-[:Edge]->(k:Node)-[:Edge]->(l:Node)-[:Edge]->(m:Node)-[:Edge]->(n:Node)-[:Edge]->(o:Node)-[:Edge]->(p:Node)-[:Edge]->(q:Node)-[:Edge]->(r:Node)-[:Edge]->(s:Node)-[:Edge]->(t:Node)
+RETURN a.id, b.id, c.id, d.id, e.id, f.id, g.id, h.id, i.id, j.id, k.id, l.id, m.id, n.id, o.id, p.id, q.id, r.id, s.id, t.id
+
+
+
+//Extra queries investigated
+
+UNWIND range(1,100000) as i
+CREATE (:Node {id: i})
+
+MATCH (n:Node)
+RETURN COUNT(n)
+
+//100
+
+%%oc
+UNWIND range(1,100) as i
+CREATE (:Node {id: i})
+
+%%oc
+MATCH (n)
+RETURN n
+
+%%oc
+MATCH (n:Node)
+WITH n
+MATCH (m:Node)
+WHERE m.id > n.id
+WITH n, m
+CREATE (n)-[:Edge]->(m)
